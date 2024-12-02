@@ -12,7 +12,7 @@ import SwiftData
 struct SwiftDataMVVMApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            ManagedUserItem.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -24,8 +24,12 @@ struct SwiftDataMVVMApp: App {
     }()
 
     var body: some Scene {
+        
+        let userStore: SwiftDataStore = SwiftDataStore(modelContainer: sharedModelContainer)
+        let viewModel: UserViewModel = UserViewModel(userStore: userStore)
+        
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: viewModel)
         }
         .modelContainer(sharedModelContainer)
     }
